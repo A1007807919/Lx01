@@ -1,0 +1,65 @@
+DROP DATABASE IF EXISTS Works;
+CREATE DATABASE Works DEFAULT CHARSET=GBK;
+USE Works;
+CREATE TABLE UserInfo
+(
+UserName varchar(50) Primary key,
+Password varchar(50) not null,
+QQ varchar(12),
+Email varchar(50),
+Type char(10) not null,
+UserImg varchar(250)) ;
+
+CREATE TABLE Activity
+(
+ActivityID int Primary key auto_increment,
+ActivityVerify char(10) not null DEFAULT '´ýÉóºË',
+ActivityName varchar(125) not null,
+Endtime datetime(6) not null,
+ActivityPicture varchar(250) not null,
+ActivityIntroduction varchar(8000),
+Summary varchar(250),
+ActivityStatus char(10),
+UserName varchar(50) not null) ;
+
+CREATE TABLE WorkInfo
+(
+WorkID int(4) Primary key,
+WorkName varchar(125) not null,
+WorkPicture varchar(250) not null,
+Uploadtime datetime(6) not null,
+WorkIntroduction varchar(8000),
+WorkVerify char(10) not null,
+UserName varchar(50) not null,
+ActivityName varchar(125),
+Recommend char(2) not null,
+RecommendTime datetime(6)) ;
+
+CREATE TABLE Comment
+(
+CommentID int(4) Primary key,
+WorkID int(4) not null,
+WorkName varchar(50) not null,
+UserName varchar(50) not null,
+CommentContent nvarchar(8000) not null,
+CommentTime datetime(6) not null) ;
+
+CREATE TABLE Image
+(
+ImgID int(4) not null,
+ImgUrl varchar(50) not null,
+ImgText varchar(50) not null,
+ImgLink varchar(100) not null,
+ImgAlt varchar(50) not null);
+
+ALTER TABLE WorkInfo
+ADD FOREIGN KEY(UserName) REFERENCES UserInfo(UserName);
+
+ALTER TABLE Comment
+ADD FOREIGN KEY(UserName) REFERENCES UserInfo(UserName);
+
+ALTER TABLE Comment
+ADD FOREIGN KEY(UserName) REFERENCES WorkInfo(UserName);
+
+ALTER TABLE Activity
+ADD FOREIGN KEY(UserName) REFERENCES UserInfo(UserName);
